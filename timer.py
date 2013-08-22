@@ -14,7 +14,8 @@ def append_to_docstring(to_add):
 
     Parameters
     ----------
-    to_add: string to add to the doc string of decorated function
+    to_add: str 
+        String to add to the doc string of decorated function
     '''
     def _append(func):
         if not func.__doc__:
@@ -34,7 +35,8 @@ def timer(n = 10):
    
     Parameters
     ----------
-    n: the number of times to run the function. Optional, default: 10
+    n: int, optional (default = 10)
+        The number of times to run the function.
     '''
     def _timer(func): # This is the actual decorator
         add = ('Decorated Function Returns\n' + 
@@ -56,21 +58,3 @@ def timer(n = 10):
         return inner
     return _timer
 
-if __name__ == '__main__':
-    @timer()
-    def f(x):
-        '''
-        X's documentation
-
-        Parameters
-        ----------
-        sdsbdsk
-
-
-        Returns
-        -------
-        ldsldks
-        '''
-        a = np.arange(x)
-        b = a**2
-        return b.sum()
