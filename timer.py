@@ -1,10 +1,29 @@
 # filename: timer.py
 # author: Roy Roth (roykroth@gmail.com)
-
+# description: Just defines a few decorators
 
 from time import time, sleep
 import numpy as np
 import functools 
+
+def append_to_docstring(to_add):
+    '''
+    Decorator Factory producing a decorator appending to a functions
+    doc string. This is useful when creating other decorators that
+    modify the behavior of the functions they decorate
+
+    Parameters
+    ----------
+    to_add: string to add to the doc string of decorated function
+    '''
+    def _append(func):
+        if not func.__doc__:
+            func.__doc__ = to_add
+        else:
+            func.__doc__ += '\n' + to_add
+        return func
+    return _append
+
 def timer(n = 10):
     '''
     Decorator Factory producing a decorator the runs the decorated
@@ -16,12 +35,13 @@ def timer(n = 10):
     Parameters
     ----------
     n: the number of times to run the function. Optional, default: 10
-
-    Returns
-    -------
-    decorator
     '''
     def _timer(func): # This is the actual decorator
+        add = ('Decorated Function Returns\n' + 
+               '--------------------------\n' + 
+               ("{Time: average execution time,\n" +
+                "Value: Undecorated Function's return value}"))
+        @append_to_docstring(add)
         @functools.wraps(func) #Preserve decorated function's documentation
         def inner(*args, **kwargs):
             time_list = []
@@ -37,10 +57,19 @@ def timer(n = 10):
     return _timer
 
 if __name__ == '__main__':
-    @timer(10)
+    @timer()
     def f(x):
         '''
         X's documentation
+
+        Parameters
+        ----------
+        sdsbdsk
+
+
+        Returns
+        -------
+        ldsldks
         '''
         a = np.arange(x)
         b = a**2
