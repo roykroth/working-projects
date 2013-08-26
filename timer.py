@@ -2,7 +2,7 @@
 # author: Roy Roth (roykroth@gmail.com)
 # description: Just defines a few decorators
 
-from time import time, sleep
+from time import time
 import numpy as np
 import functools 
 
